@@ -1,0 +1,368 @@
+\batchmode
+\makeatletter
+\def\input@path{{style/}{articles/}}
+\makeatother
+\documentclass{matua}
+\usepackage[activeacute,spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{amsthm}  
+\usepackage{supertabular,float}
+\usepackage{graphicx}
+\graphicspath{{ps/}{logo/}{figures/}{articles/figures/}}
+\usepackage{lipsum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\pienote{\@ifnextchar[{\@xfootnote}{\stepcounter {\@mpfn}\xdef\@thefnmark{\thempfn}\@footnotemark\@footnotetext}}
+\makeatletter
+\let\oldfootnote\footnote
+\def\footnote{\@ifstar\footnote@star\footnote@nostar}
+\def\footnote@star#1{{\let\thefootnote\relax\footnotetext{#1}}}
+\def\footnote@nostar{\oldfootnote}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% comandos del autor%%%%%%%%%%%%
+\newcommand{\CC}{\mathbb{C}}
+\newcommand{\RR}{\mathbb{R}}
+%%%%%%%%%%%%%%%%%%%%%%% comandos de la clase%%%%%%%%
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lin}{{\rm lin }}
+\newcommand{\pr}{\partial}
+\newcommand{\Li}{\mathcal{L}}
+\newcommand{\Nu}{\mathcal{N}}
+\newcommand{\B}{\mathfrak{B}}
+\newcommand{\sgn}{{\rm sgn }}
+\newcommand{\gra}{\nabla}
+\newcommand{\dv}{\mathrm{ \, div \, }}
+\newcommand{\dx}{\,\mathrm{d}x}
+\newcommand{\re}{ \tfrac{1}{\mathrm{Re} } \,}
+%\newcommand{\re}{\tfrac{\small{1}}{\mathrm{\small{Re}}} \,}
+%%%%%%%%%%%%% entornos theorem del autor %%%%%%%%%
+\newtheorem{defi}{{\sc Definici\'on}}[section]
+\newtheorem{lemma}{\sc Lema}
+\newtheorem{teo}{\sc Teorema}
+\newtheorem{obs}{\sc Observaci\'on}[section]
+\newcommand{\lqqd}{\hfill $\square$}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Entornos theorem de la clase %%%%%%%%%%
+\newtheorem{teorema}{Teorema}[section]%
+\newtheorem{theorem}{Theorem}[section]
+
+\newtheorem{definicion}[teorema]{Definici\'{o}n}
+\newtheorem{definition}[theorem]{Definition} 
+
+%\newtheorem{lema}[teorema]{Lema}%
+%\newtheorem{lemma}[theorem]{Lemma}
+
+\newtheorem{proposicion}[teorema]{Proposici\'{o}n}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\newtheorem{corolario}[teorema]{Corolario}%
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+\newtheorem{example}[teorema]{Example}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{observacion}[teorema]{Observaci\'{o}n}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% comandos que solo los modifica el editor
+\matuavolumen{I}
+\matuanumero{1}
+\matuames{Julio}
+\matuaanno{2014}
+\received{Junio 20, 2013} 
+\revised{Julio 2, 2013}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Una prueba sobre el Teorema de Burnside para anillos de matrices}
+\titulo{A proof of Burnside Theorem for Matrix Rings}
+
+\author{Oswaldo Dede Mej\'ia\\ \institute{Universidad del Atl\'{a}ntico}
+	\address{Departamento de Matem\'aticas, Universidad del Atl\'{a}ntico, Colombia, Km 7 Via a Pto. Colombia, Barranquilla-Colombia}
+	\mail{dedemejia@gmail.com}
+	\and 
+	Mar\'ia J. Ortega Wilches\\ \institute{Universidad Pedagogica Libertador}
+	\address{Universidad Pedagogica Libertador, IPC Caracas, Venezuela}
+	\mail{mariajoseow@gmailmariajoseow@gmailmariajoseow@gmail}
+	}
+
+\shorttitle{}
+\shortauthor{}
+\begin{document}
+
+\maketitle 
+\begin{abstract}[english]
+Let $n$ be a integer non-negative and let $\CC$ be field of the complex, we denote $M_{n}(\CC)$ the matrix rings $n\times n$ with entries in  $\CC$. In the present paper we study the theorem of Burnside in the context of matrix rings $M_{n}(\CC),$ giving a alternative proof using basic concepts of the algebra.
+\footnote*{\amssubject{76X00, 76X01}}
+\footnote*{\keywords{Field of the complex, the matrix rings $n\times n$ on $\CC$, linear operators, unitary matrix, proper subspace.}}
+\end{abstract}
+
+\selectlanguage{spanish}
+
+\begin{abstract}
+Sea $n$ un entero positivo y sea $\CC$ el campo de los complejos, denotemos por $M_{n}(\CC)$ el anillo de matrices $n\times n$ con entradas en $\CC$. En el presente art\'{i}culo se realiza un estudio del Teorema de Burnside en el contexto de los anillos de matrices $M_{n}(\CC),$ dando una demostraci\'{o}n alternativa con herramientas b\'{a}sicas del \'{a}lgebra.
+\footnote*{\keywords{Campo de los n\'{u}meros complejos,
+ anillo de matrices $n\times n$ sobre el campo de los complejos, operadores lineales, matriz unitaria, subespacio propio.}}
+\end{abstract}
+
+
+
+\section{Introducción}
+\label{p1}
+     En 1.905 William Burnside publica el siguiente teorema conocido como Teorema de Burnside para grupos finitos de matrices invertibles $n\times n$: Si $G$ es un grupo de matrices invertibles $n\times n$ con entradas en $\CC,$ entonces $\{0\}$ y $\CC^{n}$  son los \'unicos subespacios de $\CC^{n}$  invariantes por $G$ si y s\'olo si $G$ contiene $n^{2}$  matrices linealmente independientes. Este trabajo  permiti\'o que investigadores como Frobenius y Schur  avanzaran en el estudio de la teor\'ia de representaci\'on de grupos finitos, demostrando ser un resultado fundamental para esta teor\'ia (ver \cite{ref6}).
+
+En el presente trabajo se realiza un estudio del Teorema de Burnside en el contexto de los anillos de matrices  tomando como base \cite{ref3},  \cite{ref6},  \cite{ref7}. En la secci\'on 2 damos algunas observaciones y resultados conocidos del \'algebra que ser\'an utilizados durante el trabajo.\\
+Finalmente en la secci\'on 3 estudiamos la demostraci\'on de una versi\'on del Teorema de Burnside para anillos de matrices.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Preliminares}
+Las definiciones y resultados presentadas en esta secci\'on pueden consultarse en  \cite{ref1}, \cite{ref2}, \cite{ref4}.
+ Consideramos $M_{n}(\CC)$ el conjunto de matrices $n\times n$ con entradas en $\CC$, es decir,
+ \begin{equation}\label{mt11}
+M_{n}(\CC)=\left\{\left(\begin{array}{ccc}
+                 a_{1,1} & \cdots & a_{1,n} \\
+                 \vdots & \ddots & \vdots \\
+                 a_{n,1} & \cdots & a_{n,n}
+               \end{array}\right): a_{i,j}\in\CC, 1\leq i,j\leq n
+   \right\}
+\end{equation}
+Es sabido que \eqref{mt11} con las operaciones usuales tiene estructura de anillo.
+
+\begin{obs}
+Para $V$ y $W$ espacios vectoriales sobre un campo $K$ y $T:V\longrightarrow W$ una transformaci\'on lineal se tiene:
+\begin{enumerate}
+  \item [$i)$] La imagen de $T$ es $Im (T)=\{w\in W: T(v)= w, v\in V\},$
+  \item [$ii)$] El n\'ucleo de $T$ es el conjunto $\ker(T)=\{v\in V: T(v)=0\},$
+  \item [$iii)$] El rango de $T$ se define como la dimensi\'on de su imagen. As\'i, $rang T=\dim (Im T),$
+  \item [$iv)$] La nulidad de $T$ se define como la dimensi\'on de su n\'ucleo. As\'i, nulidad $T=\dim (Nu(T)),$
+  \item [$v)$] Si $V$ es de dimensi\'on finita y $\{ v_{1},\ldots,v_{n}\}$ es una base de $V$ entonces cada $v\in V$ tiene la forma $\sum_{i=1}^{n}c_{i}v_{i}$  para  $c_{i}\in K.$ Consecuentemente si $T\in L(V,W)$, se tiene $$ T(v)=\sum_{i=1}^{n}c_{i}T(v_{i}).$$
+Por lo tanto, el conjunto $\{T(v_{1}),\ldots,T(v_{n})\}$ es un conjunto de generadores de $Im T.$ Si este conjunto es linealmente independiente, entonces,
+$$rang T=\dim (Im T)=n.$$
+\end{enumerate}
+\end{obs}
+
+\begin{obs}
+Para $V$ y $W$ espacios vectoriales sobre un campo $K$ y $L(V,W)$ el conjunto de todas las transformaciones lineales de $V$ en $W$ las siguientes afirmaciones se cumplen:
+\begin{enumerate}
+\item [$i)$] $\dim V=\dim (Nu(T)) +\dim (Im T),$
+\item [$ii)$] Si $W$ es un subespacio de $V$ entonces $W$ es de dimensi\'on finita y  $\dim W\leq \dim V,$
+\item [$iii)$] Si $W$ es un subespacio de $V$ y $\dim V= n$ y $\dim W=n,$ entonces $W=V,$
+\item [$iv)$] 	Si $W$ es un espacio vectorial sobre un campo $K,$ entonces $L(V,W)$ es tambi\'en un espacio vectorial sobre $K,$
+\item [$v)$] Si dimensi\'on de $V$ es $n$ y si $W$ es un espacio vectorial de dimensi\'on finita $m$ sobre $K$ entonces el espacio $L(V,W)$ es de dimensi\'on finita $mn.$
+\end{enumerate}
+\end{obs}
+
+\begin{defi}
+Sean $V$ un $K$-espacio vectorial y $T$ un operador lineal sobre $V.$ Se dice que un subespacio $W$ de $V,$ es invariante por $T$ si $T$ aplica $W$ en si mismo, esto es, si para todo $v\in W,$ $ T (v)\in W.$
+\end{defi}
+
+\begin{defi}
+ Sean $V$ un $K$-espacio vectorial y $T: V\longrightarrow  V$ un operador lineal. Un escalar $k\in K$ se llama un valor propio de $T$ si existe un vector diferente de cero, $v\in V,$ tal que $T(v)=kv.$ Si $k$ es un valor propio de $T$ entonces cualquier vector $v\in V$ tal que $T(v)=kv$ se llama un vector propio de $T$ asociado al valor propio $k.$
+\end{defi}
+
+\begin{lemma}\label{l1p}
+Sea $V$ un $K$-espacio vectorial y sean $T:V\longrightarrow V$ un operador lineal y $k$ un valor propio. El conjunto
+\begin{equation} \label{eq1}
+E=\{v\in V : Tv = kv\},
+\end{equation}
+es un subespacio de $V.$
+\end{lemma}
+
+\begin{obs}
+El conjunto dado en \eqref{eq1} se denomina subespacio propio de $T$ asociado al valor propio $k.$
+\end{obs}
+
+\begin{lemma}\label{l2p}
+Sea $\{v_{1},\ldots,v_{n}\}$ una base de un espacio vectorial $W$ sobre un campo $K$ y sea $w$ cualquier vector no cero de $W.$ Existen escalares, $a_{i},$ $i=1,\ldots,n,$ no todos cero, tales que
+$$w=\sum_{i=1}^{n}a_{i}v_{i},\,, a_{i}\in K.$$
+Si  $a_{k}$ es diferente de cero, donde $k=\{1,\ldots,n\},$ entonces
+$\{v_{1},\ldots,v_{k-1},w,v_{k+1},\ldots,v_{n}\},$ es tambi\'en una base de $W.$
+\end{lemma}
+
+\begin{defi}
+ Sea $V$ un
+$K$-espacio vectorial con producto interno y dimensi\'on finita. Una base $\beta$ de $V$ se dice base ortogonal si $\beta$ es un conjunto ortogonal. Se dice que $\beta$ es una base ortonormal si $\beta$ es un conjunto ortonormal.
+
+\end{defi}
+
+\begin{defi}
+ Una matriz cuadrada $A$ sobre el campo de los n\'umeros complejos se dice unitaria si $A A^{\ast}=I$ y $A^{\ast}A=I$  donde $A^{\ast}$  es la adjunta de $A.$ Es decir, $A^{\ast}=A^{-1}.$
+\end{defi}
+
+\begin{obs}
+Una matriz cuadrada sobre un campo de los n\'umeros complejos es unitaria si y s\'olo si sus columnas (filas) son vectores unitarios mutuamente ortogonales.
+\end{obs}
+
+\section{Teorema de Burnside para Anillos de
+Matrices Invertibles}
+
+En el contexto de la estructura de anillos de matrices, el Teorema de Burnside  \cite{ref3}, \cite{ref6} se enuncia as\'i:
+
+\begin{teo}\label{teo1}
+Sea $A$  un subanillo de $M_{n}(\CC)$ que contiene todas las matrices escalares. Si $\CC^{n}$  no contiene subespacios propios no triviales invariantes por $A$, entonces
+$A=M_{n}(\CC).$
+\end{teo}
+
+Para llegar a la demostraci\'on del teorema  $\ref{teo1}$ se estudian los siguientes resultados.
+
+\begin{lemma}\label{lem1}
+Sea $\mathcal{R}=M_{n}(\CC),$ el anillo de matrices $n\times n$ sobre $\CC$ y sea $A$ un subanillo de $\mathcal{R}$ que contiene todas las matrices escalares tal que $\CC^{n}$ no contiene subespacios no triviales invariantes por $A.$ Si $g\in\mathcal{R},$ y para todo $f \in A,$ $g f=f g,$ entonces $g$ es una matriz escalar, es decir $g=kI$ para alg\'un $k\in \CC.$
+\end{lemma}
+
+{\bf Demostraci\'on.} Sea $g\in\mathcal{R},$ tal que $g$ conmuta con todo elemento de $\mathcal{R}.$ Sea $k\in\CC$ un valor propio de $g,$ el subespacio propio asociado a $k$ es
+$$E_{k} =\{v\in\CC^{n}: g(v)=kv\}\subseteq\CC^{n},$$
+sea adem\'as $f\in A.$ Como por hip\'otesis
+$g f = f g,$
+entonces,
+$g(f v) = f(g v) = f(k v) = k f v,$  para $v\in E,$
+esto es,
+$$g f v = k f v,$$
+se observa que $f v\in E_{k}$ y $f E_{k}\subseteq E_{k},$ es decir, $E_{k}$ es invariante por $f.$
+
+Ahora bien, como $E_{k}\neq \{0\}$ y por hip\'otesis, $\CC^{n}$ no contiene subespacios no triviales invariantes por $A,$ entonces, $E_{k}=\CC^{n}.$
+Esto significa que para todo $v\in\CC^{n},$ $gv=kv=kv,$ esto es, $g = kI,$
+es decir, $g$ es una matriz escalar como se quer\'ia  demostrar.
+
+\lqqd
+
+\begin{lemma}\label{lem2}
+Sea $\mathcal{R}=M_{n}(\CC)$ el anillo de matrices $n\times n$ sobre $\CC$ y sea  $A$ un subanillo de $\mathcal{R}$ que contiene todas las matrices escalares, tal que $\CC^{n}$  no contiene subespacios no triviales invariantes por $A.$ Si $v\in\CC^{n}$ y $W$ es un subespacio de $\CC^{n}$  tales que para cualquier
+$f \in A,\, f(W)= 0$ implica $fv=0,$ entonces $v\in W.$
+\end{lemma}
+
+{\bf Demostraci\'on.} Se procede por inducci\'on sobre
+$\dim W,$ la dimensi\'on de $W.$
+
+Si $\dim W = 0;\, 0 = W.$ Como por hip\'otesis, $A$ es un subanillo de $M_{n}(\CC)$ que contiene las matrices escalares, entonces $A$ contiene $I_{n},$ elemento identidad
+para la multiplicaci\'on, el cual satisface
+ $$ I_{n}W = I_{n} 0 = 0,$$
+en consecuencia, si $v\in \CC^{n}$  es tal que para todo $f \in\mathcal{R}, f W = 0$ implica
+ $fv=0,$ en particular, $I_{n}v = 0$, esto es $v = 0.$ As\'i $v\in W.$
+
+Se considera ahora el caso en que  $\dim W= k >1.$\\
+Sea $W_{0}$  un subespacio propio de $W,$ tal que $\dim W_{0} = \dim W - 1.$
+Una base $\{v_{1},\ldots,v_{k-1}\}$ de $W_{0}$  se puede extender a una base $\{v_{1},\ldots,v_{k-1}, w\}$  para alg\'un $w\in W,$ entonces, si $u\in W$, existen escalares $c_{1},\ldots c_{k-1}, c$ tales que
+$$u = (c_{1}v_{1} +\ldots + c_{k-1}v_{k-1}) + c w,$$
+pero  $w_{0}=c_{1}v_{1} +\ldots + c_{k-1}v_{k-1}\in W$, esto es $u = w_{0} + cw$, donde $w_{0}\in W_{0}$  y $cw\in   C_{w}=\{aw: a\in\CC\}$,
+entonces $W = W_{0} + C_{w}.$
+
+Sea
+$$H=\{ h\in A: h W_{0} = 0\}\subseteq A,$$
+$H$ es un subespacio de $A$, para verlo, sean $h_{1}, h_{2}\in H$,  y, $w_{0}\in W_{0}.$
+Entonces se tiene
+ $$ (h_{1} + h_{2} )(w_{0})=h_{1}(w_{0}) + h_{2}(w_{0})= 0 + 0=0.$$
+As\'i,  $ h_{1} + h_{2}\in H$. Adem\'as, si $c\in\CC$  y $ h\in A,$
+$$(c h) (w_{0} ) = c( h(w_{0}))=c 0= 0,$$
+es decir, $c h\in H.$
+
+Al aplicar la hip\'otesis inductiva a $W_{0}$, se tiene que, si para todo $f \in A, f (W_{0}) = 0$ implica que $f(v)=0$, entonces $ v\in W_{0} = 0.$
+
+Como $w\notin W$, para alg\'un $f \in A, f(w)\neq 0$ entonces,
+$Hw=\{hw: h\in H\}\neq 0.$
+
+Adem\'as, si $f \in A, h\in H$ y $w_{0}\in W_{0}$  entonces
+$$(f h)(w_{0}) = f(h (w_{0})) = f(0) = 0.$$
+Esto  es,  $fh\in H$ con lo que $AH\subseteq H,$ en consecuencia
+$$A(H (w))\subseteq H (w),$$
+esto significa que$H(w)$ es un subespacio no trivial invariante por $A$, lo cual implica que $H(w)= \CC^{n}.$
+
+Se considera ahora la transformaci\'on lineal
+$$g:\CC^{n}\longrightarrow \CC^{n},$$
+tal que, $$g (h(w)) = h (v), \,\forall h\in H.$$
+$g$ est\'a bien definida, ya que, si $h_{1}, h_{2}\in H$ y $h_{1}(w)= h_{2}(w)$, entonces
+$$(h_{1}-h_{2})v = 0.$$
+ As\'i, $h_{1}v-h_{2}v = 0,$  entonces, $h_{1}v = h_{2}v,$  por lo tanto $g (h_{1}w) = g (h_{2}w).$
+
+Se verifica ahora que $g$ es lineal, ya que,
+ \begin{eqnarray*}
+g(h_{1}w + h_{2}w) &=&g((h_{1} + h_{2})w)=(h_{1} + h_{2}) v\\
+ &=& h_{1}v + h_{2}v=g(h_{1} w)+g(h_{2} w).
+ \end{eqnarray*}
+Tambi\'en,  $$g(ch_{1}w)=(ch_{1})v=ch_{1}(v)=cg(h_{1}w).$$
+
+Ahora se prueba que $g$ conmuta con cualquier $f\in A,$ en efecto,
+ \begin{eqnarray*}
+gf(h(w))&=&g((f h)(w))=(f h)(v)\\
+&=&f(h(v))=f (g h(w))\\
+&=&(f g) (h(w)) \,\forall h\in H.
+ \end{eqnarray*}
+
+De acuerdo al lema, \ref{lem1}\\
+$g=kI$ para alg\'un $k\in\CC,$
+con lo que
+ \begin{eqnarray*}
+h(v)&=&g(h(w)=kI(h(w))\\
+&=&k(Ih(w))=k(Ih)w=k h(w).
+\end{eqnarray*}
+En consecuencia,
+ $$h(v)-kh(w)= h(v-kw)=0, \,\forall h\in H.$$
+De donde,
+$v-kw\in W_{0}$, as\'i, $v-kw=w_{0}\in W_{0}.$
+Entonces,
+ \begin{eqnarray*}
+v &=& w_{0}  + k w, \,k\in\CC\\
+v &=& w_{0}  + w_{1},
+ \end{eqnarray*}
+ donde $w_{0}\in W_{0}$ y $w_{1}\in C_{w}$,
+ es decir,
+$v\in W,$ como se deseaba demostrar.
+
+\lqqd
+
+Ahora, podemos demostrar el teorema \ref{teo1} usando los resultados anteriores.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Demostraci\'on del Teorema \ref{teo1}}
+
+Si se prueba  que $A$ contiene a $\{E_{i,j}: i, j=1,\ldots,n\},$ la base can\'onica de $M_{n}(\CC)$, se tiene que
+$M_{n}(\CC)\subseteq A$ y por tanto $M_{n}(\CC)=A.$  As\'i, para probar el teorema \ref{teo1}
+basta  probar que $A$ contiene todas las matrices $E_{i,j}.$\\
+Sea  $\beta =\{e_{1},\ldots,e_{n}\},$ la base can\'onica de $\CC^{n}.$ $\beta$ es una base ortonormal. Sea $W_{0}$  el subespacio generado  por $\{e_{2}, e_{3},\ldots,e_{n}\}$ y  sea $$H=\{ h\in A: hW_{0}=0\}.$$ $H$ es  subespacio de $A.$
+
+Puesto que $e_{1}\notin W$  entonces existe $h\in H$ tal que $h(e_{1})\neq 0$ y, dado que
+$H(e_{1})$ es invariante por $A$ entonces $H(e_{1})=\CC^{n}$. En particular,
+para cada $i$ existe $h_{i}\in H$ tal que $h_{i}(e_{j,i})=0$,  para $ j\neq i.$
+
+La matriz de $h_{i}$ es $E_{i,1}$.
+Por lo tanto, $E_{i,j}\in A$ como se deseaba demostrar.
+
+\lqqd
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{agradecimientos}
+En este espacio van los agradecimientos :\par
+Si los hay $\cdots$
+\end{agradecimientos}
+
+\begin{thebibliography}{15}
+\bibitem{ref1} M.A. Armstrong, Groups and Symmetry. Springer - Verlag, 1988.
+
+\bibitem{ref2} J. Dorronsoro, E. Hern\'andez, N\'umeros, Grupos y Anillos, Editorial
+            Addison-Wesley, 1996.
+
+\bibitem{ref3} I.Halperin and P. Rosenthal, Burnside theorem on Algebras of Matrices. Amer. Math. Monthly 87 (1980) 810.
+
+\bibitem{ref4} K. Hofman y R. Kunze, \'Algebra Lineal. Prentice Hall, 1973.
+
+\bibitem{ref5} T. Hungerford, \'Algebra. Spinger - Verlag, 1974.
+
+\bibitem{ref6} T.Y. Lam, A theorem of Burnside on Matrix Rings. AmerMath.
+       Math. Monthly 105(1998).651-653.
+
+\bibitem{ref7} V. Lomonosov, P. Rosenthal, The Simplest Proof of Burnside Theorem on Matrix \'Algebras, Linear \'Algebra and Its Applications
+386 (2004) 45-47.
+
+%\bibitem{T}{R. Teman;\emph{Navier-Stokes equation: theory and numerical analysis}, S.1, Nort Holland, pág. 525, (1984)}
+
+%\bibitem{ZT}{O. C. Zienkiewicz, R. L. Taylor \emph{The Finite Element Method, The basis}, Vol 1, fifth edition, Butterworth Heinemann, Spain, (2000)}
+
+\end{thebibliography}
+\end{document}

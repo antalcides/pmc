@@ -1,0 +1,368 @@
+\batchmode
+\makeatletter
+\def\input@path{{style/}{articles/}}
+\makeatother
+\documentclass{matua}
+\usepackage[activeacute,spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{amsthm}  
+\usepackage{supertabular,float}
+\usepackage{graphicx}
+\graphicspath{{ps/}{logo/}{figures/}{articles/figures/}}
+\usepackage{lipsum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\pienote{\@ifnextchar[{\@xfootnote}{\stepcounter {\@mpfn}\xdef\@thefnmark{\thempfn}\@footnotemark\@footnotetext}}
+\makeatletter
+\let\oldfootnote\footnote
+\def\footnote{\@ifstar\footnote@star\footnote@nostar}
+\def\footnote@star#1{{\let\thefootnote\relax\footnotetext{#1}}}
+\def\footnote@nostar{\oldfootnote}
+\makeatother
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%% comandos del autor%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%% comandos de la clase%%%%%%%%
+%%%%%%%%%%%%% entornos theorem del autor %%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Entornos theorem de la clase %%%%%%%%%%
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{question}{Question}
+%\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}\newline}
+
+
+\parindent 0 in
+%\parskip 9 pt
+\DeclareMathOperator{\cl}{Cl}
+
+\DeclareMathOperator{\Int}{Int}
+%%%%%%  titulo aqui %%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\matuavolumen{I}
+\matuanumero{1}
+\matuames{Julio}
+\matuaanno{2014}
+\received{Junio 20, 2013} 
+\revised{Julio 2, 2013}
+%%%%%%%%%%%%%%%%%%% title
+%%%%%%%%%%%%%%%%%%%%%%%%
+\title{Separation axioms on enlargements of generalized topologies}
+\author{C. Carpintero, N. Rajesh \and  E. Rosas}
+
+\address{Universidad De Oriente\\Nucleo De Sucre Cumana\\Venezuela\\Universidad del Atlantico\\Facultad de Ciencias Basicas Barranquilla\\Colombia}
+
+\mail{carpintero.carlos@gmail.com}
+\address{Department of Mathematics\\Rajah Serfoji Govt. College\\Thanjavur-613005\\Tamilnadu, India.}
+\mail{nrajesh\_topology@yahoo.co.in}
+\address{Universidad De Oriente\\Nucleo De Sucre Cumana\\Venezuela\\ Universidad del Atlantico\\Facultad de Ciencias Basicas Barranquilla\\Colombia}
+\mail{ennisrafael@gmail.com}
+%\subjclass{}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\begin{document}
+\maketitle
+\begin{abstract}[english]
+The concept of enlargement of a generalized topology was introduced by Cs$\acute{a}$sz$\acute{a}$r \cite{cs3}. In this paper, we introduce the  notion of $\kappa$-$T_i$ (i = 0, 1/2, 1, 2) and study some properties of them.
+\footnote*{\keywords{Generalized Topology,  enlargements.}}
+\footnote*{\amssubject{54A05, 54A10, 54D10}}
+\end{abstract}
+
+
+
+\section{Introduction}
+Let $X$ be a nonempty set and $\mu$ be a collection of subsets of $X$. Then $\mu$ is called a generalized topology on $X$ if and only if  $\emptyset\in g$ and $G_i\in g$ for $i \in I\neq\emptyset$ implies $\mathop\cup\limits_{i\in I} G_i\in g$. We call the pair $(X, g)$ a generalized topological spaces on $X$. The members of $\mu$ are called $\mu$-open sets \cite{cs1} and the complement of a $\mu$-open set is called a $\mu$-closed  set. The generalized-closure of a set $A$ of $X$, denoted by $c_\mu(A)$, is the intersection of all $\mu$-closed sets containing $A$ and the generalized-interior of $A$, denoted by $i_\mu(A)$, is the union of $\mu$-open sets included in $A$.
+Let $\mu$ be a generalized topology on $X$. A mapping $\kappa: \mu\rightarrow P(X)$ is called an enlargement \cite{cs3} on $X$ if $M\subseteq \kappa M$ ( = $\kappa(M)$) whenever $M\in\mu$.
+Let $\mu$ be a generalized topology on $X$ and $\kappa: \mu\rightarrow P(X)$ an enlargement of $\mu$. Let us say that a subset $A\subseteq X$ is $\kappa_\mu$-open \cite{cs3} if and only if $x\in A$ implies the existence of a $\mu$-open set $M$ such that $x\in M$ and $\kappa M\subseteq A$.
+The collection of all $\kappa_\mu$-open sets is a generalized topology on $X$  \cite{cs3}. A subset $A\subseteq X$ is said to be $\kappa_\mu$-closed if  and only if $X\backslash A$ is $\kappa_\mu$-open \cite{cs3}. The set $c_{\kappa}$ (briefly $c_\kappa A$) is defined in \cite{cs3} as the following:\newline
+\hspace*{20pt}
+{$c_{\kappa} (A) = \{x\in X: \kappa (M)\cap A\neq\emptyset$ for every $\mu$-open set M containing x\}}.
+\section{Preliminaries}
+\begin{definition}\cite{cs3}
+Let $(X, \mu)$ and  $(Y, \nu)$ be a generalized topological spaces. A function $f: (X, \mu)\rightarrow (Y, \nu)$ is said to be $(\kappa, \lambda)$-continuous if $x\in X$ and $N\in \upsilon$, $f(x)\in N$ imply the existence of $M\in \mu$ such that $x\in M$ and $f(\kappa M)\subset \lambda N$.
+\end{definition}
+\begin{theorem}\label{t4.2}\cite{cs3}
+Let $(X, \mu)$ and  $(Y, \nu)$ be a generalized topological spaces and $f: (X, \mu)\rightarrow (Y, \nu)$ a $(\kappa, \lambda)$-continuous function. Then the following hold:
+\begin{enumerate}
+\item  $f(c_\kappa(A))\subset c_{\lambda}(f(A))$ holds for every subset $A$ of $(X, \mu)$.
+\item  for every $\lambda_\nu$-open set $B$ of $(Y, \nu)$, $f^{-1}(B)$ is $\kappa_\mu$-open in $(X, \mu)$.
+\end{enumerate}
+\end{theorem}
+\section{Enlargement-separation axioms}
+\begin{definition}
+Let $\kappa: \mu\rightarrow P(X)$ be an enlargement and $A$ a subset of $X$. Then the $\kappa_\mu$-closure of $A$ is denoted by $c_{\kappa_\mu}(A)$ and is defined as the intersection of all $\kappa_\mu$-closed sets containing $A$.
+\begin{remark}
+Since The collection of all $\kappa_\mu$-open sets is a generalized topology on $X$, then for any $A\in X,$ $c_{\kappa_\mu}(A)$ is a $\kappa_\mu$-closed set
+\end{remark}
+\end{definition}
+\begin{proposition}\label{p3.11}
+Let $\kappa: \mu\rightarrow P(X)$ be an enlargement and $A$ a subset of $X$. Then $c_{\kappa_\mu}(A)=\{y\in X: V\cap A\neq\emptyset$ for every $V\in \kappa_\mu$ such that $y\in V\}$.
+\end{proposition}
+\begin{proof}
+Denote $E=\{y\in X: V\cap A\neq\emptyset$ for every $V\in \kappa_\mu$ such that $y\in V\}$. We shall prove that $c_{\kappa_\mu}(A)=E$. Let $x\notin E$. Then there exists a $\kappa_\mu$-open set $V$ containing $x$ such that $V\cap A=\emptyset$. This implies that $X\backslash V$ is $\kappa_\mu$-closed and $A\subset X\backslash V$. Hence $c_{\kappa_\mu}(A)\subset X\backslash V$. It follows that $x\notin c_{\kappa_\mu}(A)$. Thus we have that $c_{\kappa_\mu}(A)\subset E$. Conversely, let $x\notin c_{\kappa_\mu}(A)$. Then there exists a ${\kappa_\mu}$-closed set $F$ such that $A\subset F$ and $x\notin F$. Then we have that $x\in X\backslash F$, $X\backslash F\in {\kappa_\mu}$ and $(X\backslash F)\cap A=\emptyset$. This implies that $x\notin E$. Hence $E\subset c_{\kappa_\mu}(A)$. Therefore $c_{\kappa_\mu}(A)=E$.
+\end{proof}
+\begin{example}
+Let $X=\{a,b,c,d\}$ and $\mu=P(X)\backslash\{\mbox{all proper subsets of X }$
+$ \mbox{ which contains }d\}.$\linebreak 
+The enlargement $\kappa$ add's the element $d$ to each nonempty $\mu$-open set. Then $\kappa_\mu = \{\emptyset, X\}$. Now put $A=\{a\}$. Obviously $c_{\kappa_\mu}(A)=X$ and $c_{\kappa}(A)=\{a,d\}$. This example shows that $c_{\kappa}\subsetneq c_{\kappa_\mu}$.
+\end{example}
+\begin{example}
+Let $X=\Re$ be the real line and $\mu=\emptyset\cup\{\Re\backslash\{x\},\mbox{x $\neq$ 0}\}$.
+The enlargement $\kappa$ is defined as $\kappa(A) = c_\mu(A)$. Then $\kappa_\mu = \{\emptyset, X\}$.
+\end{example}
+\begin{example}
+Let $X=\Re$ and $\mu=\{\emptyset, \Re\}\cup \{A_{a}=(a,+\infty)\mbox{ for all }a\in \Re\}.$
+The enlargement map $\kappa$ is defined as follows:
+$$\kappa(A) =\left\{
+\begin{array}{ccc}
+          A & \mbox{ if } A=(0,+\infty),\\
+          \Re & \mbox{ if } A\neq (0,+\infty),\\
+          \emptyset & \mbox{ if }A=\emptyset.
+        \end{array}\right.
+        $$
+The generalized $\kappa_\mu$ topology on $X$ is
+ $\{\emptyset, \Re,(0,+\infty)\}$.
+\end{example}
+\begin{definition}\label{d3.19}
+An enlargement $\kappa$ on $\mu$ is said to be open, if for every $\mu$-neighborhood $U$ of $x\in X$, there exists a $\kappa_\mu$-open set $B$ such that $x\in B$ and $\kappa(U)\supset B$.
+\end{definition}
+\begin{example}
+Let $X=\{a,b,c\}$ and $\mu=\{\emptyset,X,\{a\},\{b\},\{a,b\},\{a,c\}\}.$
+Define $\kappa: \mu\rightarrow P(X)$ as follows:
+$$\kappa(A) =\left\{
+\begin{array}{cc}
+          A & \mbox{ if } b\in A\\
+          c_\mu(A) & \mbox{ if } b\notin A.
+        \end{array}\right.
+        $$
+The enlargement $\kappa$ on $\mu$ is open.
+\end{example}
+\begin{proposition}\label{p3.20}
+If $\kappa: \mu\rightarrow P(X)$ is an open enlargement and $A$ a subset of $X$, then $c_\kappa
+(A)=c_{\kappa_\mu}(A)$ and $c_\kappa(c_\kappa(A))=c_\kappa(A)$ hold and $c_\kappa(A)$ is $\kappa_\mu$-closed in $(X, \mu)$.
+\end{proposition}
+\begin{proof}
+Suppose that $x\notin c_{\kappa}(A)$. Then there exists a $\mu$-open set $U$ containing $x$ such that $\kappa(U)\cap A=\emptyset$. Since $\kappa$ is an open enlargement, by Definition \ref{d3.19}, there exists a $\kappa_\mu$-open set $V$ such that $x\in V\subset \kappa(U)$ and so $V\cap A=\emptyset$. By Proposition \ref{p3.11}, $x\notin c_{\kappa_\mu}(A)$, it follows that, $c_{\kappa_\mu}(A)\subset c_{\kappa}(A)$. By Corollary 1.7 of \cite{cs3}, we have $c_\kappa(A)\subset c_{\kappa_\mu}(A)$. In consequence, we obtain that $c_\kappa(c_\kappa(A))=c_\kappa(A)$. By Proposition 1.3 of \cite{cs3}, we obtain that $c_\kappa(A)$ is a $\kappa_\mu$-closed in $(X, \mu)$.
+\end{proof}
+\begin{definition}
+Let $\mu$ be a generalized topology on $X$ and $\kappa: \mu\rightarrow P(X)$ an enlargement of $\mu$. Then a subset $A$ of a generalized topological space $(X, \mu)$ is said to be a generalized $\kappa_\mu$-closed (abbreviated by g.$\kappa_\mu$-closed) set in $(X, \mu)$, if $c_\kappa(A)\subset U$ whenever $A\subset U$ and $U\in\kappa_\mu$.
+\end{definition}
+\begin{proposition}\label{p1}
+Every $\kappa_\mu$-closed set is g.$\kappa_\mu$-closed.
+\end{proposition}
+\begin{proof}
+Straightforward.
+\end{proof}
+\begin{remark}
+A subset $A$ is g.$id_\mu$-closed if and only if $A$ is $g_\mu$-closed in the sense of Maragathavalli et. al. \cite{R5}.
+\end{remark}
+\begin{theorem}
+Let $\kappa$ be an enlargement of a generalized topological space $(X, \mu)$. If $A$ is g.$\kappa_\mu$-closed in $(X, \mu)$, then $c_{\kappa}(\{x\})\cap A\neq\emptyset$ for every $x\in c_{\kappa}(A)$.
+\end{theorem}
+\begin{proof}
+Let $A$ be a g.$\kappa_\mu$-closed set of $(X, \mu)$. Suppose that there exists a point $x\in c_\kappa(A)$ such that $c_{\kappa}(\{x\}) \cap A = \emptyset$. By Proposition 1.3 of \cite{cs3}, $c_{\kappa}(\{x\})$ is a $\mu$-closed. Put $U = X\backslash c_{\kappa}(\{x\})$. Then, we have that $A\subset U$, $x\in U$ and $U$ is a $\mu$-open set of $(X, \mu)$. Since $A$ is a g.$\kappa_\mu$-closed set, $c_\kappa(A)\subset U$. Thus, we have $x\notin c_\kappa(A)$. This is a contradiction.
+\end{proof}
+The converse of the above Theorem not necessarily is true, as we can see.
+\begin{example}\label{e2}
+Let $N$ be the set of all natural numbers and $\mu$ the discrete topology on $N$. Let $i_{0}$ be a fixed odd number.
+Define $\kappa: \mu\rightarrow P(N)$ as follows:
+$$\kappa(\{n\}) =\left\{
+\begin{array}{cc}
+          \{2i:i\in N\} & \mbox{ if } n\mbox{ is an even number }\\
+          \{2i+1:i\in N\} & \mbox{ if } n = i_{0}\\
+          \{n\} & \mbox{ if } n \mbox{ is an odd number } \not=i_{0}
+        \end{array}\right.
+        $$
+        and $\kappa(A)=N$ for the rest.\\
+Clearly, $\kappa$ is an enlargement on $\mu$. Take $A=\{2,4\}.$ It easy to see that $c_{\kappa}(A)=\{2i:i\in N\}$ and $c_{\kappa}(\{x\})\cap A\neq\emptyset$ for every $x\in c_{\kappa}(A)$ but $A$ not is a g.$\kappa_\mu$-closed set.
+\end{example}
+\begin{theorem}
+Let $\mu$ be a generalized topology on $X$ and $\kappa: \mu\rightarrow P(X)$ an enlargement on $\mu$.
+\begin{enumerate}\label{t4.3}
+\item If a subset $A$ is g.$\kappa_\mu$-closed in $(X, \mu)$, then $c_\kappa(A)\backslash A$ does not contain any nonempty $\kappa_\mu$-closed set.
+\item If $\kappa : \mu\rightarrow P(X)$ be an open enlargement on $(X, \mu)$, then the converse of (1) is true.
+\end{enumerate}
+\end{theorem}
+\begin{proof}
+(1). Suppose that there exists a $\kappa_\mu$-closed set $F$ such that $F\subset  c_{\kappa}(A)\backslash A$. Then, we have that $A \subset X\backslash F$ and $X\backslash F$ is $\kappa_\mu$-open. It follows from assumption that $c_{\kappa}(A) \subset X\backslash F$ and so $F \subset (c_{\kappa}(A)\backslash A) \cap (X\backslash  c_{\kappa}(A))$. Therefore, we have that $F = \emptyset$.\\
+(2). Let $U$ be a $\kappa_\mu$-open set such that $A \subset U$. Since $\kappa$ is an open enlargement, it follows from Proposition \ref{p3.20} that $c_{\kappa}(A)$ is $\kappa_\mu$-closed in $(X, \mu)$. Thus using Proposition 1.1 of \cite{cs3},
+we have that $c_{\kappa_\mu}(A) \cap X\backslash U$, say $F$, is a $\kappa_\mu$-closed set in $(X, \mu)$. Since $X\backslash U\subset X\backslash A$, $F\subset c_{\kappa_\mu}(A)\backslash A$. Using the assumption of the converse of (1) above, $F = \emptyset$ and hence $c_{\kappa_\mu}(A)\subset U$.
+\end{proof}
+
+\begin{lemma}\label{l4.5}
+Let $A$ be a subset of a generalized topological space $(X, \mu)$ and $\kappa :  \mu\rightarrow P(X)$ an enlargement on $(X, \mu)$. Then for each $x\in X$, $\{x\}$ is $\kappa_\mu$-closed or $(X\backslash \{x\})$ is g.$\kappa_\mu$-closed set of $(X, \mu)$.
+\end{lemma}
+\begin{proof}
+Suppose that $\{x\}$ is not $\kappa_\mu$-closed. Then $X\backslash\{x\}$ is not $\kappa_\mu$-open. Let $U$ be any $\kappa_\mu$-open set such that $X\backslash \{x\}\subset U$. Then since $U = X$, $c_\kappa(X\backslash \{x\}) \subset U$. Therefore, $X\backslash \{x\}$ is g.$\kappa_\mu$-closed.
+\end{proof}
+\begin{definition}\label{d5.1}
+A generalized topological space $(X, \mu)$ is said to be a $\kappa$-$T_{1/2}$
+space, if every g.$\kappa_\mu$-closed set of $(X, \mu)$ is $\kappa_\mu$-closed.
+\end{definition}
+
+\begin{theorem}\label{t2}
+A generalized topological space $(X, \mu)$ is $\kappa$-$T_{1/2}$ if and only if for each $x\in X$, $\{x\}$ is $\kappa_\mu$-closed or $\kappa_\mu$-open in $(X, \mu)$.
+\end{theorem}
+\begin{proof}
+Necessity: It is obtained by Lemma \ref{l4.5} and Definition \ref{d5.1}.
+Sufficiency: Let $F$ be g.$\kappa_\mu$-closed in $(X, \mu)$. We shall prove that $c_{\kappa_\mu}(F) = F$. It is sufficient to show that $c_{\kappa_\mu}(F) \subset F$. Assume that there exists a point $x$ such that $x \in c_{\kappa_\mu}(F)\backslash F$. Then by assumption, $\{x\}$ is $\kappa_\mu$-closed or $\kappa_\mu$-open.\\
+Case(i): $\{x\}$ is $\kappa_\mu$-closed set. For this case, we have a $\kappa_\mu$-closed set $\{x\}$ such that $\{x\} \subset c_{\kappa_\mu}(F) \backslash F$. This is a contradiction to Theorem \ref{t4.3} (1). \\
+Case(ii): $\{x\}$ is $\kappa_\mu$-open set. Using Corollary 1.7 of \cite{cs3}, we have $x\in c_{\kappa_\mu}(F)$. Since $\{x\}$ is $\kappa_\mu$-open, it implies that $\{x\} \cap F \neq \emptyset$. This is a contradiction. Thus, we have that, $c_{\kappa}(F) = F$ and so, by Proposition 1.4 of \cite{cs3} $F$ is $\kappa_\mu$-closed.
+\end{proof}
+\begin{definition}\label{d3.2}
+Jet $\kappa: \mu\rightarrow P(X)$ be an enlargement. A generalized topological space $(X, \mu)$ is said to be:
+\begin{enumerate}
+\item $\kappa$-$T_0$ if for any two distinct points $x, y\in X$ there exists a $\mu$-open set $U$ such that either $x\in U$ and $y\notin \kappa (U)$ or $y\in U$ and $x\notin \kappa (U)$.
+\item $\kappa$-$T_1$ if for any two distinct points $x, y\in X$ there exist two $\mu$-open sets $U$ and $V$ containing $x$ and $y$, respectively such that $y\notin \kappa (U)$ and $x\notin \kappa (V)$.
+\item $\kappa$-$T_2$ if for any two distinct points $x, y\in X$ there exist two $\mu$-open sets $U$ and $V$ containing $x$ and $y$, respectively such that $\kappa (U)\cap \kappa (V) = \emptyset$.
+\end{enumerate}
+\end{definition}
+\begin{theorem}
+Let $A$ be a subset of a generalized topological space $(X, \mu)$ and $\kappa :  \mu\rightarrow P(X)$ an open enlargement on $(X, \mu)$. Then $(X, \mu)$ is a $\kappa$-$T_0$ space if and only if for each pair $x, y\in X$ with $x \neq y$, $c_\kappa(\{x\}) = c_\kappa(\{y\})$ holds.
+\end{theorem}
+\begin{proof}
+Let $x$ and $y$ be any two distinct points of a $\kappa$-$T_0$ space. Then by Definition\ref{d3.2}, there exists a $\mu$-open set U such that $x\in U$ and $y\notin \kappa(U)$. It follows that there exists a $\mu$-open set $S$ such that $x \in S$ and $S \subset \kappa (U)$. Hence, $y \in X\backslash \kappa (U) \subset X\backslash S$. Because $X\backslash S$ is a $\mu$-closed set, we obtain that $c_\kappa(\{y\})\subset X\backslash S$ and so $c_\kappa(\{x\}) \neq c_\kappa(\{y\})$. Conversely, suppose that $x\neq y$ for any $x, y\in X$. Then we have that, $c_\kappa(\{x\}) \neq c_\kappa(\{y\})$. Thus, we assume that there exists $z\in  c_\kappa(\{x\})$ but $z \notin c_\kappa(\{y\})$. If $x \in c_\kappa(\{y\})$, then we obtain $c_\kappa(\{x\}) \subset c_\kappa(\{y\})$. This implies that $z \in c_\kappa(\{y\})$. This is a contradiction, in consequence, $x \in c_\kappa(\{y\})$. Therefore, there exists a $\mu$-open set $W$ such that $x \in W$ and $\kappa(W) \cap \{y\} = \emptyset$. Thus, we have that $x \in W$ and $y \notin \kappa(W)$. Hence, $(X, \mu)$ is a $\kappa$-$T_0$ space.
+\end{proof}
+\begin{example}\label{e5}
+In the Example \ref{e2}. Take $A=\{2,4\}$. $c_{\kappa}(A)- A=\{2i:i\in N-\{1,2\}\}$ not contain nonempty $\kappa_\mu$-open set and $A$ is not g.$\kappa_\mu$-closed set.
+\end{example}
+\begin{theorem}\label{t1}
+A generalized topological space $(X, \mu)$ is $\kappa$-$T_1$ if and only if every singleton set of $X$ is $\kappa_\mu$-closed.
+\end{theorem}
+\begin{proof}
+The proof follows from the respective definitions.
+\end{proof}
+From Theorems \ref{t2}, \ref{t1} and Definition \ref{d3.2} we obtain the following:
+\begin{center}
+$\kappa$-$T_2\rightarrow\kappa$-$T_1\rightarrow\kappa$-$T_{1/2}\rightarrow\kappa$-$T_0$.
+\end{center}
+%\begin{proposition}\label{p5.8}
+%\begin{enumerate}
+%\item If a space $(X, \tau)$ is $(\gamma, \gamma^{'})$-$T_2$, then it is $(\gamma, \gamma^{'})$-$T_1$.
+%\item If a space $(X, \tau)$ is $(\gamma, \gamma^{'})$-$T_1$, then it is $(\gamma, \gamma^{'})$-$T_{1/2}$.
+%\item If a space $(X, \tau)$ is $(\gamma, \gamma^{'})$-$T_{1/2}$, then it is $(\gamma, \gamma^{'})$-$T_0$.
+%\end{enumerate}
+%\end{proposition}
+%\begin{proof}
+%(1)The proof is straightforward from definitions.\\
+%(2) If a space By definitons and Propositon \ref{p5.7} it is proved.\\
+%(3) Let $x$ and $y$ be two distinct points of $X$. By Theorem \ref{t4.11} the singleton $\{x\}$ is $(\gamma, \gamma^{'})$-open or $(\gamma, \gamma^{'})$-closed.\\
+%Case 1. $\{x\}$ is $(\gamma, \gamma^{'})$-open. There exist open sets $U$ and $V$ containing $x$ such that $\kappa(U)\cup V^{\gamma^{'}}\subset \{x\}$ and so $y\notin \kappa(U)$ and $y\notin V^{\gamma^{'}}$.Then Remark \ref{r5.6}(2) holds in this case.\\
+%Case 2. $\{x\}$ is $(\gamma, \gamma^{'})$-closed. Since $X\backslash \{x\}$ is $(\gamma, \gamma^{'})$-open, for $y\in X\backslash \{x\}$ there exist two open sets $W$ and $S$ containing $y$ such that $W^\gamma\cup S^{\gamma^{'}}\subset X\backslash \{x\}$ and so $x\notin W^\gamma$ and $x\notin S^{\gamma^{'}}$. Then Remark \ref{r5.6} (3) holds in this case. \\
+%Therefore this implies that $(X, \tau)$ is $(\gamma, \gamma^{'})$-$T_0$.
+%\end{proof}
+
+
+
+\begin{definition}
+Let $(X, \mu)$ be a generalized topological space. Then the sequence $\{x_k\}$ is said to $\kappa$-converge to a point $x_0 \in X$, denoted $x_k\underrightarrow{\kappa}x_0$, if for every $\mu$-open set $U$ containing $x_0$ there exists a positive
+integer $n$ such that $x_k \in \kappa(U)$ for all $k\geq n$.
+\end{definition}
+\begin{theorem}
+Let $(X, \mu)$ be a $\kappa$-$T_2$ space. If $\{x_k\}$ is said to $\kappa$-converge sequence, Then it $\kappa$-converge to at most one point.
+\end{theorem}
+\begin{proof}
+Let $\{x_k\}$ be a sequence in $X$ $\kappa$-converging to $x$ and $y$. Then by definition
+of $\kappa$-$T_2$ space, there exist $U, V\in \mu$ such that $x \in U , y\in V$ and $\kappa(U)\cap\kappa(V) = \emptyset$. Since $x_k\underrightarrow{\kappa}x$, there exists a positive integer $n_1$ such that $x_k\in \kappa(U)$ for all
+$k\geq n_1$. Also $x_k\underrightarrow{\kappa}y$, therefore there exists a positive integer $n_2$ such that $x_k\in \kappa(V)$, for
+all $k\geq n_2$. Let $n_0 = \max (n_1, n_2)$. Then $x_k\in \kappa(U)$ and $x_k\in\kappa(V)$, for all $k\geq n_0$ or $x_k\in \kappa(U)\cap\kappa(V)$, for all $k\geq n_0$. This contradiction proves that $\{x_k\}$ $\kappa$-converges to at most one point.
+\end{proof}
+\begin{remark}
+Note that the above results generalize the well known separation axioms in general topology in an structure more weaker than a topology.
+\end{remark}
+\section{Additional Properties}
+
+
+\begin{proposition}
+Let $f:(X, \mu)\rightarrow (Y, \nu)$ be a $(\kappa, \lambda)$-continuous injection. If $(Y, \nu)$ is $\lambda$-$T_1$ (resp. $\lambda$-$T_2$), then $(X, \mu)$ is $\kappa$-$T_1$ (resp. $\kappa$-$T_2$).
+\end{proposition}
+\begin{proof}
+Suppose that $(Y, \nu)$ is $\lambda$-$T_2$. Let $x$ and $x^{'}$ be distinct points of $X$. Then there exist two open sets $V$ and $W$ of $Y$ such that $f(x)\in V, f(x^{'})\in W$ and $\lambda(V)\cap \lambda(W)=\emptyset$. Since $f$ is $(\kappa, \lambda)$-continuous, for $V$ and $W$ there exist two open sets $U, X$ such that $x\in U, x^{'}\in S, f(\kappa(U))\subset \lambda(V)$ and $f(\kappa(S))\subset \lambda(W)$. Therefore, we have $\kappa(U)\cap \kappa(S)=\emptyset$ and hence $(X, \mu)$ is $\kappa$-$T_2$. The proof of the case of $\lambda$-$T_1$ is proved similarly.
+\end{proof}
+\begin{definition}
+An enlargement $\kappa:\mu\times \nu\rightarrow P(X\times Y)$ is said to be associated with $\kappa_1$ and $\kappa_2$, if $\kappa(U\times V)= \kappa_1(U)\times \kappa_2(V)$ holds for each $(\neq \emptyset) U\in \mu$, $(\neq \emptyset)V\in \nu$.
+\end{definition}
+\begin{definition}
+An enlargement $\kappa:\mu\times \nu\rightarrow P(X\times Y)$ is said to be regular with respect to $\kappa_1$ and $\kappa_2$, if for each point $(x, y)\in X\times Y$ and each $\mu\times \nu$-open set $W$ containing $(x, y)$, there exists $U\in \mu$ and $V\in \nu$ such that $x\in U$, $y\in V$ and $\kappa_1(U)\times \kappa_2(V)\subset \kappa(W)$.
+\end{definition}
+\begin{proposition}\label{p5.2}
+Let $\kappa:\mu\times \mu\rightarrow P(X\times X)$ be an enlargement associated  with $\kappa_1$ and $\kappa_1$. If $f:(X, \mu)\rightarrow (Y, \nu)$ is $(\kappa_1, \kappa_2)$-continuous and $(Y, \nu)$ is a $\kappa_2$-$T_2$ space, then the set $A=\{(x, y)\in X\times X: f(x)=f(y)\}$ is a $\kappa$-closed set of $(X\times X, \mu\times \mu)$.
+\end{proposition}
+\begin{proof}
+We show that $c_{\kappa}(A)\subset A$. Let $(x, y)\in X\times X\backslash A$. Then, there exist $U, V \in \nu$ such that $f(x)\in U, f(y)\in V$ and $\kappa_2(U)\cap \kappa_2(V)=\emptyset$. Moreover, for $U$ and $V$ there exist $W, S\in \mu$ such that $x\in W, y\in S$ and $f(\kappa_1(W))\subset \kappa_2(U)$ and $f(\kappa_1(S))\subset \kappa_2(V)$. Therefore, we have $\kappa(W\times S)\cap A=\emptyset$. This shows that $(x, y)\notin c_{\kappa}(A)$.
+\end{proof}
+\begin{corollary}
+ If $\kappa:\mu\times \mu\rightarrow P(X\times X)$ is an enlargement associated with $\kappa_1$ and $\kappa_1$ and it is regular with respect to $\kappa_1$ and $\kappa_1$. A generalized topological space $(X, \mu)$ is $\kappa_1$-$T_2$ if and only if the diagonal set $\Delta=\{(x, x): x\in X\}$ is $\kappa$-closed in $(X\times X, \mu\times \mu)$.
+\end{corollary}
+\begin{proposition}
+Let $\kappa:\mu\times \nu\rightarrow P(X\times Y)$ be an enlargement associated  with $\kappa_1$ and $\kappa_1$. If $f:(X, \mu)\rightarrow (Y, \nu)$ is $(\kappa_1, \kappa_2)$-continuous and $(Y, \nu)$ is a $\kappa_2$-$T_2$ space, then the graph of $f$, $G(f) = \{(x, f(x))\in X\times Y\}$ is a $\kappa$-closed set of $(X\times Y, \mu\times \nu)$.
+\end{proposition}
+\begin{proof}
+The proof is similar to that of Proposition \ref{p5.2}.
+\end{proof}
+\begin{definition}
+An enlargement $\kappa$ on $\mu$ is said to be regular, if for any $\mu$-open neighborhoods $U, V$ of $x\in X$, there exists a $\mu$-open neighborhood $W$ of $x$ such that $\kappa(U)\cap \kappa(V)\supset \kappa(W)$.
+\end{definition}
+
+\begin{theorem}\label{t5.5}
+Suppose that $\kappa_1$ is a regular enlargement and $\kappa:\mu\times \nu\rightarrow P(X\times Y)$ is regular with respect to $\kappa_1$ and $\kappa_2$. Let $f:(X, \mu)\rightarrow (Y, \nu)$ be a function whose graph $G(f)$ is $\kappa$-closed in  $(X\times Y, \mu\times \nu)$. If a subset $B$ is $\kappa_2$-compact in $(Y, \nu)$, then $f^{-1}(B)$ is $\kappa_1$-closed in $(X, \mu)$.
+\end{theorem}
+\begin{proof}
+Suppose that $f^{-1}(B)$ is not $\kappa_1$-closed. Then, there exists a point $x$ such that $x\in c_{\kappa_1}(f^{-1}(B))$ and $x\notin f^{-1}(B)$. Since $(x, b)\notin G(f)$ for each $b\in B$ and $G(f)\supset c_{\kappa}(G(f))$, there exists a $\mu\times \nu$-open set $W$ such that $(x, b)\in W$ and $\kappa(W)\cap G(f) = \emptyset$. By the regularity of $\kappa$, for each $b\in B$ we can take two sets $U(b)\in \mu$ and $V(b)\in\nu$ such that $x\in U(b), b\in V(b)$ and $\kappa_1(U(b))\times \kappa_2(V(b))\subset\kappa(W)$. Then we have $f(\kappa_1(U(b)))\cap \kappa_2(V(b)) = \emptyset$. Since $\{V(b): b\in B\}$ is a $\nu$-open cover of $B$, there exists a finite number of points $b_1,...,b_n\in B$ such that $B\subset \mathop\cup\limits_{i=1}^{n}\kappa_2(V(b_i))$, by the $\kappa_2$-compactness of $B$. By the regularity of $\kappa_1$, there exists $U\in \mu$ such that $x\in U$, $\kappa_1(U)\subset \mathop\cap\limits_{i=1}^{n}\kappa_1(U(b_i))$. Therefore, we have $\kappa_1(U)\cap f^{-1}(B)\subset \mathop\cup\limits_{i=1}^{n}\kappa_1(U(b_i))\cap f^{-1}(\kappa_2(V(b_i)))=\emptyset$. This shows that $x\notin c_{\kappa_1}(f^{-1}(B))$, thus we have a contradiction.
+\end{proof}
+\begin{theorem}
+Let $f:(X, \mu)\rightarrow (Y, \nu)$ be a function whose graph $G(f)$ is $\kappa$-closed in $(X\times Y, \mu\times \nu)$ and
+suppose that the following conditions hold:
+\begin{enumerate}
+\item $\kappa_1:\mu\rightarrow P(X)$ is open,
+\item $\kappa_2:\nu\rightarrow P(Y)$ is regular, and
+\item $\kappa:\mu\times \nu\rightarrow P(X\times Y)$ is an enlargement associated with $\kappa_1$ and $\kappa_2$ and $\kappa$ is regular with respect to $\kappa_1$ and $\kappa_2$.
+\end{enumerate}
+ If every cover of $A$ by $\kappa_1$-open sets of $(X, \mu)$ has a finite subcover, then $f(A)$ is $\kappa_2$-closed in $(Y, \nu)$.
+\end{theorem}
+\begin{proof}
+The proof is similar to that of Theorem \ref{t5.5}
+\end{proof}
+\begin{proposition}
+Let $\kappa:\mu\times \nu\rightarrow P(X\times Y)$ be an enlargement associated with $\kappa_1$ and $\kappa_2$. If $f:(X, \mu)\rightarrow (Y, \nu)$ is $(\kappa_1, \kappa_2)$-continuous and $(Y, \nu)$ is a $\kappa_2$-$T_2$, then the graph of $f$, $G(f)=\{(x, f(x))\in X\times Y\}$ is a $\kappa$-closed set of $(X\times Y, \mu\times \nu)$.
+\end{proposition}
+\begin{proof}
+The proof is similar to that of Proposition \ref{p5.2}.
+\end{proof}
+\begin{definition}
+A function $f: (X, \mu)\rightarrow (Y, \nu)$  is said to be $(\kappa, \lambda)$-closed, if for any $\kappa_\mu$-closed set $A$ of $(X, \mu)$, $f(A)$ is $\lambda_\nu$-closed in $(Y, \nu)$.
+\end{definition}
+
+\begin{theorem}\label{t3}
+Suppose that $f$ is $(\kappa, \lambda)$-continuous and $(id, \lambda)$-closed.
+If for every g.$\kappa_\mu$-closed set $A$ of $(X, \mu)$, then the image $f(A)$ is g.$\lambda_\nu$-closed.
+\end{theorem}
+\begin{proof}
+ Let $V$ be any $\lambda_\nu$-open set of $(Y, \nu)$ such that $f(A)\subset V$. By the Theorem \ref{t4.2} (2), $f^{-1}(V )$ is $\kappa_\mu$-open. Since $A$ is g.$\kappa_\mu$-closed and $A\subset f^{-1}(V )$, we have $c_{\kappa} (A)\subset f^{-1}(V)$, and hence $f(c_\kappa (A))\subset V$. It follows from Proposition 1.3 of \cite{cs3} and assumption that $f(c_\kappa (A))$ is  $\lambda_\nu$-closed. Therefore we have $c_\lambda(f(A))\subset c_\lambda(f(c_\kappa (A))) = f(c_\kappa (A))\subset V$. This implies $f(A)$ is g.$\lambda_\nu$-closed.
+\end{proof}
+\begin{theorem}
+If $f: (X, \mu)\rightarrow (Y, \nu)$  is $(\kappa, \lambda)$-continuous and $(id, \lambda)$-closed. If $f$ is injective and $(Y, \nu)$ is $\lambda$-$T_{1/2}$, then $(X, \mu)$ is $\kappa$-$T_{1/2}$.
+\end{theorem}
+\begin{proof}
+Let $A$ be a g.$\kappa_\mu$-closed set of $(X, \mu)$. We shows that $A$ is $\kappa_\mu$-closed. By Theorem \ref{t3} and assumptions it is obtained that $f(A)$ is g.$\lambda_\nu$-closed and hence $f(A)$ is $\lambda_\mu$-closed. Since $f$ is $(\kappa, \lambda)$-continuous, $f^{-1}(f(A))$ is $\kappa_\mu$-closed by using Theorem \ref{t4.2}(2).
+\end{proof}
+
+
+\begin{thebibliography}{99}
+\bibitem{cs1} A. Cs$\acute{a}$sz$\acute{a}$r, Generalized topology, generalized continuity, \emph{Acta Math. Hungar.}, \textbf{96 (2002)}, 351-357.
+\bibitem{cs2} A. Cs$\acute{a}$sz$\acute{a}$r, Generalized open sets in generalized topology, \emph{Acta Math. Hungar.}, \textbf{106 (2005)}, 53-66.
+\bibitem{cs3} A. Cs$\acute{a}$sz$\acute{a}$r, Enlargements and generalized topologies \emph{Acta Math. Hungar.}, \textbf{120 (2008)}, 351-354.
+\bibitem{R5} S. Maragathavalli, M. Sheik John and D. Sivaraj, On $g$-closed sets in generalized topological spaces, \emph{J. Adv. Res. Pure Maths.} \textbf{2(1) (2010)}, 57-64.
+\end{thebibliography}
+\end{document}

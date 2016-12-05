@@ -1,0 +1,494 @@
+\batchmode
+\makeatletter
+\def\input@path{{style/}{articles/}}
+\makeatother
+\documentclass[title]{matua}
+\usepackage[activeacute,spanish]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{amsthm}  
+\usepackage{supertabular,float}
+\usepackage{graphicx}
+\graphicspath{{ps/}{logo/}{figures/}{articles/figures/}}
+\usepackage{lipsum}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\def\pienote{\@ifnextchar[{\@xfootnote}{\stepcounter {\@mpfn}\xdef\@thefnmark{\thempfn}\@footnotemark\@footnotetext}}
+\makeatletter
+\let\oldfootnote\footnote
+\def\footnote{\@ifstar\footnote@star\footnote@nostar}
+\def\footnote@star#1{{\let\thefootnote\relax\footnotetext{#1}}}
+\def\footnote@nostar{\oldfootnote}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\lin}{{\rm lin }}
+\newcommand{\pr}{\partial}
+\newcommand{\Li}{\mathcal{L}}
+\newcommand{\Nu}{\mathcal{N}}
+\newcommand{\B}{\mathfrak{B}}
+\newcommand{\sgn}{{\rm sgn }}
+\newcommand{\gra}{\nabla}
+\newcommand{\dv}{\mathrm{ \, div \, }}
+\newcommand{\dx}{\,\mathrm{d}x}
+\newcommand{\re}{ \tfrac{1}{\mathrm{Re} } \,}
+%\newcommand{\re}{\tfrac{\small{1}}{\mathrm{\small{Re}}} \,}
+
+\newtheorem{teorema}{Teorema}[section]%
+\newtheorem{theorem}{Theorem}[section]
+
+\newtheorem{definicion}[teorema]{Definici\'{o}n}
+\newtheorem{definition}[theorem]{Definition} 
+
+\newtheorem{lema}[teorema]{Lema}%
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newtheorem{proposicion}[teorema]{Proposici\'{o}n}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\newtheorem{corolario}[teorema]{Corolario}%
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{ejemplo}[teorema]{Ejemplo}
+\newtheorem{example}[teorema]{Example}
+
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{observacion}[teorema]{Observaci\'{o}n}
+%JDuque
+\newtheorem{pv}{Problema variacional}
+\matuavolumen{I}
+\matuanumero{1}
+\matuames{Julio}
+\matuaanno{2013}
+\received{Junio 20, 2013} 
+\revised{Julio 2, 2013}
+\title{Estimativo a posteriori del error en la soluci\'on de un modelo compresible tipo Stokes}
+\titulo{Posteriori error estimate for the solution of a model type compressible Stokes}
+
+\author{Catalina Domínguez \\ \institute{Universidad del Valle}
+	\address{Departamento de Matem\'aticas, Universidad del Valle,  Calle 13  100-00, Cali-Colombia}
+	\mail{catdomin@univalle.edu.co}
+	\and 
+	Jairo Duque \\ \institute{Universidad del Valle}
+	\address{Departamento de Matem\'aticas, Universidad del Valle,  Calle 13  100-00, Cali-Colombia}
+	\mail{jjduque@univalle.edu.co}
+	}
+
+\shorttitle{Estimativo a posteriori de un modelo compresible}
+\shortauthor{C. Domínguez y J. Duque}
+\contentsauthor{Catalina Domínguez y Jairo Duque}
+\addtoindex{Dom{\'\i}nguez C y Duque,J}
+\begin{document}
+
+\maketitle 
+\begin{abstract}[english]
+Existence and uniquess of the weak solution for a Stokes  type equation modelling a compressible fluid have been studied in this work.
+Unlike  the classic Stokes equation in this model we replace the mass conservation equation by $div(\rho u)=0$, where $u$ is the velocity of fluid and  $\rho$ the mass density and prove existence and uniquess for a class of function $\rho>0$ satisfying the condition $\|\gra \rho(x)\|_\infty \leq \alpha$, for some constant $\alpha$. Besides, we propose an adaptive finite element method to approximate the solution based on the solution of a auxiliary problem consisting in 
+locally enriching a finite elements space. Finally, we present numerical results for the cavity problem solved by this adaptive method.
+\footnote*{\amssubject{76X00, 76X01}}
+\footnote*{\keywords{Finite element method, a posteriori estimate, Stokes equation, Inf-Sup condition.}}
+\end{abstract}
+
+\selectlanguage{spanish}
+
+\begin{abstract}
+En este artículo se demuestra la existencia y unicidad de la solución débil de un sistema de ecuaciones tipo Stokes que modela un flujo compresible.  A diferencia del modelo clásico de Stokes, en este modelo reemplazamos la ecuación de continuidad por la restricción  $div(\rho u)=0$, siendo $u$ el campo de velocidades del flujo y $\rho$ la densidad del fluido. Nuestro resultado de existencia y unicidad aplica a una clase de funciones $\rho$, $\rho$ es una función positiva con  $\|\gra \rho(x)\|_\infty \leq \alpha$, para alguna constante $\alpha$. Además, proponemos un método de elementos finitos adaptativo para aproximar la solución del modelo, que consiste en resolver localmente un problema auxiliar que se obtiene enriqueciendo el espacio de elementos finitos. Finalmente, presentamos la solución numérica del problema de la cavidad con el método adaptativo.
+\footnote*{\keywords{M\'etodo de los elementos finitos, Estimativo a posteriori, Ecuaci\'on de Stokes, Condici\'on inf-sup.}}
+\end{abstract}
+
+
+
+\section{Introducción}
+El propósito de este artículo es determinar la existencia y unicidad de un modelo tipo Stokes con densidad variable, y 
+presentar un estimativo a posteriori del error en la solución con un método de elementos finitos. La 
+técnica adaptativa consiste en resolver localmente un problema auxiliar para construir un estimativo del error cometido
+en la aproximación.
+Sea $\Omega\subset\R^n$ un dominio acotado con frontera Lipschitz $\Gamma$. En este trabajo $n=2$ o 3.
+Sea $L^2_0(\Omega) = \{p\in L^2(\Omega) : \, \int_\Omega p \dx= 0 \}$, nuestro problema consiste en econtrar $(u, p) \in H^1(\Omega)^n\times L^2_0(\Omega)$ tal que
+%
+\begin{equation} \label{eq:1}
+  \begin{split}
+   -\tfrac{1}{\mathrm{Re}}\Delta u + \gra p & =f,\quad \text{ en }\Omega,\\
+   \mathrm{div } (\rho\, u) & =0,\quad  \text{ en }\Omega,\\
+  \end{split}
+\end{equation}
+%
+y $u=0$ en $\Gamma$.
+Aquí $u:\Omega \to \R^n$ representa el campo de velocidades del flujo, $p:\Omega\to \R$ es la
+presión en $\Omega$ y $\rho:\Omega \to \R$ es la densidad del fluido. Además, suponemos que 
+$\rho\in C^\infty(\Omega)$ y que existen constantes $b_1,\,b_2>0$ tales que
+%
+\begin{equation}\label{eq:03}
+  b_1 \leq \rho(x) \quad \text{ y } \quad \|\gra \rho(x)\|_\infty \leq b_2   \quad \text{ para todo }x\in \Omega.
+\end{equation}
+%
+Sean $V=H_0^1(\Omega)^n$ y $\Pi=L^2_0(\Omega)$ los espacios de Hilbert
+dotados con las normas de $H^1(\Omega)^n$ y $L^2(\Omega)$, respectivamente.
+Entonces siguiendo el procedimiento usual de integración por partes obtenemos la formulación variacional mixta del problema 
+de valores de frontera: \emph{Encontrar $u\in V$ y $p\in \Pi$ tales que
+%
+\begin{equation} \label{eq:2}
+  \begin{split}
+   a(u,v)+b(v,p) & = F(v) \quad \text{para todo }v\in V\\
+   b(u,q)& =0 \qquad \text{ \emph{para todo} }q \in  \Pi 
+  \end{split}
+\end{equation}
+%
+donde las formas bilineales $a\colon V\times V\to \R$, $b\colon V\times \Pi\to\R$ y el funcional $F\in V'$ están definidos respectivamente como}
+%
+\begin{align} \label{eq:8}
+  a(u,v) & = \re( \gra u,\gra (\rho v))_{\Omega} \\ 
+  b(v,q) & = (\dv (\rho v), q)_{\Omega}, 
+\end{align}
+%
+donde $(\cdot,\cdot)_{\Omega}$ representa el producto escalar en $L^2(\Omega)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Existencia y unicidad de la solución débil}
+
+En esta sección nuestro objetivo es demostrar la existencia y unicidad de la solución del problema variacional \eqref{eq:2}.
+Para ésto citamos de la referencia \cite{DL} el siguiente teorema abstracto.
+%
+\begin{teorema}\label{teo:1}
+Consideremos dos espacios de Hilbert $V$ y $\Pi$ y dos formas bilineales continuas $a(\cdot,\cdot ):V× V\to \R $ y $b(\cdot,\cdot ):V× \Pi\to \R$. Supongamos que la forma bilineal $a$ es coerciva, 
+es decir, existe $\alpha >0$ tal que
+\begin{equation} \label{eq:9}
+  \alpha \| v\|^2 \leq a(v,v), \quad \text{ para todo }v\in V,
+\end{equation} 
+y la forma bilineal $b$ satisface la condición inf-sup, 
+ésta es, existe $\beta>0$ tal que
+\begin{equation}\label{eq:10}
+  \beta \| q\| \leq \sup_{v\in V} \frac{b(v,q)}{\| v\| } , \quad  \text{ para todo }q\in  \Pi,
+\end{equation}
+entonces el problema variacional \eqref{eq:2} tiene solución única.
+\end{teorema}
+\begin{proof}
+  Véase \cite{BR}
+\end{proof}
+
+Para aplicar el teorema anterior a nuestra formulación variacional \eqref{eq:2} introducimos algunas definiciones y demostramos algunos resultados intermedios.
+
+\begin{definicion}
+Sea $\zeta\in \R^n$ con $\|\zeta\|=1$, $(a,b)\subset \R$ con $ b-a=d>0$ y
+$d\neq \infty$. Denotaremos con $B_d(\zeta)$ al conjunto $B_d(\zeta) = \{ x\in \R^n ; a< x\cdot \zeta < b\}$.  $B_d(\zeta)$ se denomina una \emph{banda} en $\R^n$ de altura $d$ en la dirección de $\zeta$.
+\end{definicion}
+A continuación usaremos las condiciones \eqref{eq:03} impuestas sobre $\rho$ y la definición anterior para demostrar la coercividad de la forma bilineal $a(\cdot,\cdot)$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{proposicion}
+Sea $\Omega\subset \R^n$ y supongamos que existe una banda $B_d(\zeta)$ que contiene a $\Omega$
+tal que las constantes $b_1, \,b_2$ definidas en \eqref{eq:03} satisfacen la condición
+\begin{equation}\label{eq:14}
+  \frac{1}{2}d^2 < \frac{b_1^2}{b_2^2},
+\end{equation}
+entonces la forma bilineal $a$ es coerciva.
+\end{proposicion}
+\begin{proof}
+Sin perdidad de generalidad supongamos $u \in C_0^\infty(\Omega)$. Entonces
+\begin{align*}
+  \mathrm{Re}a(u,u) & = \int_\Omega \gra u \cdot \gra (\rho \, u)\dx \\
+                       & =  \sum_{i=1}^n  \int_\Omega  \rho\,\gra u_i \cdot \gra u_i  + \gra u_i \cdot (u_i\,\gra \rho) \dx.
+\end{align*}
+Usando la condición \eqref{eq:03} tenemos
+\begin{align*} 
+  \re b_1 \sum_{i=1}^n \int_\Omega (\gra u_i )^2 \dx & \leq \sum_{i=1}^n  \int_\Omega  \rho\,\gra u_i \cdot \gra u_i \dx\\
+    & = a(u,u) - \re \sum_{i=1}^n \int_\Omega \gra u_i \cdot (\gra \rho\cdot u_i)\dx \\
+    & \leq a(u,u) + \re \| \gra \rho\|_{\infty} \sum_{i=1}^n  \int_\Omega |\gra u_i|\,|u_i|\dx\\
+    & \leq a(u,u) + \re b_2 \sum_{i=1}^n\int_\Omega |\gra u_i | | u_i| \dx,
+\end{align*}
+y aplicando la desigualdad de Cauchy se obtiene
+\begin{equation*}
+  \re  b_1 \sum_{i=1}^n \int_\Omega (\gra u_i )^2 \dx \leq a(u,u)+ \epsilon\sum_{i=1}^n\int (\gra u_i )^2 \dx + \frac{b_2^2}{4\epsilon \,\mathrm{Re}^2} \sum_{i=1}^n\int_\Omega u_i^2 \dx.
+\end{equation*}
+Por la desigualdad de Poincaré se tiene que 
+$  \| v\|^2_{L^2(\Omega)} \leq \frac{d^2}{2}  \| \gra v\|^2_{L^2(\Omega)}$, (véase \cite{DL}),
+de esta manera,
+\begin{align*}
+  \tfrac{b_1}{2\mathrm{Re}} \sum_{i=1}^n \int_\Omega (\gra u_i)^2 & + \,\tfrac{b_1}{d^2 \mathrm{Re}} \, \sum_{i=1}^n\int_\Omega u_i^2 \dx \\
+  & \leq  \tfrac{b_1}{2 \mathrm{Re}} \sum_{i=1}^n\int_\Omega (\gra u_i)^2 \dx +  \tfrac{b_1}{2\mathrm{Re}} \sum_{i=1}^n\int_\Omega (\gra u_i)^2 \dx \\
+  & \leq  a(u,u)+ \epsilon\sum_{i=1}^n\int (\gra u_i )^2 \dx + \tfrac{b_2^2}{4\epsilon\mathrm{Re}^2} \sum_{i=1}^n\int_\Omega u_i^2 \dx.
+\end{align*}
+Así, escogiendo $\epsilon>0$ tal que
+\begin{equation*}
+ \frac{b_1}{2 \mathrm{Re}}-\epsilon>0 \quad \text{y} \quad  \frac{b_1}{d^2\mathrm{Re}}-\frac{b_2^2}{4\epsilon\mathrm{Re}^2}>0,
+\end{equation*}
+el cual existe ya que  la desigualdad \eqref{eq:14} se satisface, se obtiene.
+\begin{align*}
+  (\frac{b_1}{2\mathrm{Re}}-\epsilon)\sum_{i=1}^n \int_\Omega (\gra u_i)^2 + \Big( \frac{b_1}{d^2\mathrm{Re}}- \frac{b_2^2}{4\epsilon\mathrm{Re}^2} \Big) \sum_{i=1}^n \int_\Omega u_i^2  & \leq  a(u,u).
+\end{align*}
+Finalmente  escogiendo $\alpha = \min\big\{\frac{b_1}{2 \mathrm{Re} }-\epsilon,\, \re \big( \frac{nb_1}{d^2}- \frac{b_2^2}{4\epsilon\mathrm{Re}}\big) \big\}$ y usando la densidad de $C_0^\infty(\Omega)$ en
+$H_0^1(\Omega)$ se demuestra la coercividad del operador $a(\cdot,\cdot)$.
+\end{proof}
+A continuación demostramos que el operador $b(\cdot,\cdot)$ satisface la condición inf-sup.
+
+\begin{proposicion}
+  $b(\cdot,\cdot )$ satisface la condición inf-sup, es decir, existe $\beta>0$ tal que
+\[
+  \beta \| q\| \leq \sup_{v\in V} \frac{b(v,q)}{\| v\| }, \quad   \text{ para todo }q\in  \Pi. 
+\]
+\end{proposicion}
+\begin{proof} Definamos la forma bilineal $\tilde b\colon V\times\Pi\to \R$ como
+%
+\[ \tilde{b}(v,p ) = -\int_\Omega \dv(v)p\,dx, \quad\forall v\in V, q\in\Pi.\]
+%
+Nosotros recalcamos de la referencia \cite{BJ} que la forma $\tilde b$ satisface la condición inf-sup, es decir, existe
+una constante $\beta>0$  tal que
+\begin{equation}\label{eq:032}
+  \beta \| p\| \leq \sup_{v\in V} \frac{\tilde{b}(v,p)}{\| v\| }
+\end{equation}
+para todo $p\in \Pi$. Siguiendo el procedimiento usual de integración por partes y anotando que $\rho$ es una función regular 
+tenemos que 
+%
+\begin{equation*}
+b(v,p) = - \int_\Omega \dv(\rho \, v)\,p \dx = - \sum_{i=1}^n \int_\Omega \dv(\rho \, v_i)\,p \dx =  \int_\Omega \rho v\cdot \gra p \dx.
+\end{equation*}
+%
+Por la condición \eqref{eq:03} existe una constante $b_1>0$ tal que $b_1< \rho(x) $, entonces $ b_1 \, \tilde{b}(u,p) \leq b(u,p)$
+y
+%
+\begin{equation*}
+ b_1 \, \sup_{v} \frac{\tilde{b}(v,p)}{\| v\| } \leq \sup_{v} \frac{b(v,p)}{\| v\| }.
+\end{equation*}
+%
+De la condición inf-sup \eqref{eq:032}
+\begin{equation*}%\label{eq:033}
+  \beta b_1 \| p\| \leq b_1 \sup_{v} \frac{\tilde{b}(v,p)}{\| v\| } \leq  \sup_{v} \frac{b(v,p)}{\| v\| }
+\end{equation*}
+para todo $p\in \Pi$.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Aproximación con elementos finitos}
+
+El propósito de esta sección es presentar la aproximación con elementos finitos del problema variacional
+\eqref{eq:2}. En \cite{BR} se puede encontrar una descripci\'on detallada sobre el m\'etodo de elementos finitos.
+Sean $V^h$, $\Pi^h$ subespacios de $v$ y $\Pi$ de dimensión finita, respectivamente. Sea ${\cal T}^h$ 
+una partición regular de $\Omega$, en
+elementos $T$ de diámetro $h_T$, donde $h=\sup_{T\in{\cal T}^h} h_T$. 
+El método de elementos finitos para el sistema \eqref{eq:2} 
+consiste en encontrar $u^h\in V^h$ y $p^h\in \Pi^h$ tales que
+%
+\begin{equation}\label{eq:fem}
+ \begin{split}
+  a(u^h,v) + b(v,p^h) & = F(v) \quad \text{\emph{para todo} }v\in V^h\\
+  b(u^h,q) - h^2 d(p^h,q) & =0 \qquad \text{ \emph{para todo} }q\in \Pi^h, 
+ \end{split}
+\end{equation} 
+donde la forma bilineal $d$ está dada por $d(p^h,q) =  \int_{\Omega} \gra p^h \cdot \gra q \dx$ y $h$ es el diámetro de la 
+partición. Aquí, nosotros hemos usado
+la técnica de Brezzi y Pitkäranta \cite{Brezzi} para estabilizar un método de elementos finitos. Es bien conocido, que este
+método no es estable, cuando $d\equiv0$ y los elementos finitos en $V^h$ y $\Pi^h$ son lineales. La cantidad $h^2 d(p^h,q)$ se puede interpretar con
+un término estabilizador que desaparece cuando el parámetro $h$ tiende a cero. Para especificar $V^h$ y $\Pi^h$ definimos
+%
+\[ P_1(T)=\{v\colon T\to\R, v\in \text{span}\{1,x_1,x_2\}\}, \]
+%
+entonces, $V^h=\{ v\in V\colon v\mid_T \in P_1(T)^n, \forall T\in {\cal  T}^h\}$ y 
+$\Pi^h=\{q\in H^1(\Omega)\colon q\mid_T\in P_1(T),\forall T\in {\cal T}^h\}$.
+
+Este método fue estudiado en \cite{gutierrez}. En \cite{gutierrez} también se presentan algunos resultados numéricos. 
+
+
+\section{Aproximación a posteriori del error}
+
+En esta sección describimos un método de subdominios para determinar el estimativo a posteriori de la solución con elementos
+finitos del sistema de ecuaciones \eqref{eq:1}. 
+
+Considere el problema \eqref{eq:1} en un subdominio $\Omega_i\subset\Omega$ con condiciones de frontera $u_i=\bar u_{i0}$ en
+$\partial\Omega_i$. La condición de frontera $\bar u_{i0}$ es igual al valor exacto de la solución de el problema global \eqref{eq:1}
+en $\partial\Omega_i$. Así, la solución exacta $(u_i,p_i)$ del problema local debería ser igual a la restricción de la solución 
+exacta $(u,p)$ al subdominio $\Omega_i$.
+
+Sean $u_{i0}+V_i$ y $\Pi_i$ los espacios de funciones admisibles para $u_i$ y $p_i$, respectivamente,
+%
+\begin{align*}
+ V_i&=\{ v\in H^1(\Omega_i)^n\colon v=0 \text{ en }\partial\Omega_i\}, \\
+ \Pi_i&=\{q\in L^2_0(\Omega_i)\},
+\end{align*}
+%
+donde $u_{i0}\in ( H^1(\Omega_i))^n$ y $ u_{i0}=\bar u_{i0}$ en $\partial\Omega_i$.
+%
+
+Analóganente al problema global \eqref{eq:1}, definimos el problema variacional local como: Encuentre $(u_i,p_i)\in 
+(u_{i0}+V_i)\times \Pi_i$ en  $\Omega_i\subset\Omega$ tal que
+%
+\begin{equation}\label{eq:local}
+\begin{split}
+(\gra u_i,\gra v)_{\Omega_i} + (p_i,\dv(\rho v))_{\Omega_i} &= (f,v)_{\Omega_i},\quad \forall v\in V_i,\\
+(q,\dv(\rho u_i))_{\Omega_i} &= 0, \quad \forall q \in \Pi_i.
+\end{split}
+\end{equation}
+%
+Ahora definimos $(u^h_i,p^h_i)$ como la restricción de $(u^h,p^h)$ en $\partial\Omega_i$ y el error local $(e_{u_i},
+e_{p_i})$ en $\partial\Omega_i$ como $e_{u_i}=u_i-u^h$ y $e_{p_i}=p_i-p^h$.
+
+Como la solución exacta no está disponible, usamos en su lugar una aproximación con elementos finitos. Sean $(u^H,p^H)\in V^H\times
+\Pi^H$ una solución con elementos finitos y ${\cal T}^H$ la partición de $\Omega$ en la cual los espacios $V^H$ y $\Pi^H$ están
+definidos. En este trabajo, los elementos de ${\cal T}^H$ y ${\cal T}^h$ son del mismo tipo, sin embargo, los elementos de
+${\cal T}^H$ son más pequeños, ya que $H<h$. Sea ${\cal T}_i^H$ la parte de ${\cal T}^H$ que es la partici\'on de $\Omega_i$ y 
+%
+\begin{align*}
+V_i^H&=\{v\in H^1(\Omega_i)^n, v^h\mid_T\in P_1(T)^n, \forall T\in {\cal T}_i^H, v=0 \text{ en }\partial\Omega_i\},\\
+\Pi_i^h&=\{q^h\in H^1(\Omega_i)\colon q\mid_T\in P_1(T),\forall T\in {\cal T}_i^H\}.
+\end{align*}
+%
+Ahora, buscamos en $\Omega_i$ la proyecci\'on de $(e_{u_i},
+e_{p_i})$ en $V_i^H\times \Pi_i^H$, es decir, $e_{u_i}^h=u_i^H-u^h$, $e_{p_i}^h=p_i^H-p^h$, donde $(u_i^H, p_i^H)\in
+(u_{i0}+V_i^H)\times \Pi_i^H$ es la restricci\'on de $(u^H,p^H)$ en $\Omega_i$. Aqu\'i, nosotros aproximamos el error
+$(e_{u_i},e_{p_i})$ con el error $(e_{u_i}^h, e_{p_i}^h)$ en $\Omega_i$, o globalmente, aproximamos el error $(e_u,e_p)$ 
+con el error $(e_u^h,e_p^h)$. 
+
+Aplicando el método de elementos finitos \eqref{eq:fem} al problema local \eqref{eq:local} obtenemos la formulación en elementos finitos para el estimativo $(e_{u_i}^h,e_{p_i}^h)$: \emph{ Encuentre 
+$(e_{u_i}^h,e_{p_i}^h)\in (u_{i0}+V_i^H)\times \Pi_i^H$ tal que
+%
+\begin{equation}\label{eq:femlocal}
+\begin{split}
+(\gra e_{u_i}^h,\gra v)_{\Omega_i} + (e_{p_i}^h,\dv(\rho v))_{\Omega_i} &= (f,v)_{\Omega_i} - (\gra u^h,\gra v)_{\Omega_i}
+- (p^h,\dv(\rho v))_{\Omega_i}, \\
+(q,\dv(\rho e_{u_i}^h))_{\Omega_i} - H^2d(e_{p_i},q)_{\Omega_i} &= -(q,\dv(\rho u^h))_{\Omega_i}+H^2d(p^h,q)_{\Omega_i},\quad \forall q \in \Pi_i^H
+\end{split}
+\end{equation}
+}  
+Para obtener esta formulación hemos reemplazado $(u_i,p_i)$ en \eqref{eq:local}  por $(u_i^H,p_i^H)$. Si las condiciones de frontera en \eqref{eq:femlocal}
+son correctas, entonces $(u_i^H,p_i^H)$ es una aproximación lineal de $(u^h,p^h)$. Sin embargo, estas están disponibles sólo si
+el problema \eqref{eq:fem} se resuelve en la partición ${\cal T}^H$. En caso contrario, las condiciones de frontera en 
+$\partial\Omega_i$ se determinan de la siguiente forma: $e_{u_i}^h=0$ en $\partial\Omega_i^a$, si $\partial\Omega_i^a$ es la parte de $\Gamma$ en $\partial\Omega_i$ y, $e_{u_i}^h=\bar e_{u}^h$ en $\partial\Omega_i^b$, si $\partial\Omega_i^b$ es la frontera de
+$\Omega_i\setminus\Omega_i^a$, donde el valor intermedio $\bar e_{u}^h$ es el promedio de los valores de $e_{u_i}^h$ en $\partial\Omega_i^b$ ya calculados. Si no se dispone de estos valores, tomamos $e_{u_i}^h=0$.
+
+Los subdominos $\Omega_i$ se seleccionan visitando los elementos de ${\cal T}^h$. 
+Dado un elemento $T\in {\cal T}^h$, un subdominio $\Omega_i$ consiste de los elementos ${\cal T}^H$ que se obtienen refinando los elementos $\omega_T$ de ${\cal T}^h$ que comparten vertices con el elemento $T$
+ (v\'ease figura \ref{fig:parche}). Para refinar los elementos $\omega_T$ generamos una nueva partici\'on con elementos de menor \'area. Finalmente,
+los elementos del subdominio $\Omega_i$ son aquellos de la partici\'on m\'as fina que comparten 
+v\'ertices con los elementos de $\omega_T$.
+%
+\begin{figure}[H]
+\centerline{%
+\includegraphics[scale=0.2]{fig1_a.pdf}\kern 1.5cm\includegraphics[scale=0.2]{fig1_b.pdf}}
+\caption{Elementos $w_T$ asociados al elemento $T\in {\cal T}^h$ y el respectivo suddominio (caso bidimensional, $n=2$).}\label{fig:parche}
+\end{figure}
+Este procedimiento se repite hasta completar todos los elementos de la partición ${\cal T}^h$. Una vez se ha determinado del valor del $(e_u^h,e_p^h)$ en la partición $T\in {\cal T}^h$ de
+$\Omega$ estimamos la precisión de la aproximación $(u^h,p^h)$, es decir, el valor $\|(e_u,e_p)\|_{(H^1(\Omega))^n\times L^2(\Omega)}$, mediante el indicador
+%
+\begin{equation}\label{eq:estimate} \sum_{T\in {\cal T}^h} \theta_T, \end{equation}
+%
+donde $\theta_T=\|(e_u^h,e_p^h)\|_{(H^1(T))^n\times L^2(T)}$.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Resultados numéricos}
+En esta sección presentamos resutados numéricos que ilustran la validez del método de elementos finitos \eqref{eq:fem}
+y del indicador \eqref{eq:estimate} presentado en la sección anterior. El algoritmos adaptivo usado para calcular
+las soluciones del problema \eqref{eq:1} es el siguiente:
+%
+\begin{enumerate}
+\item Inicie con la partición ${\cal T}^h$.
+\item Calcule la solución de \eqref{eq:fem} usando la partición actual ${\cal T}^h$.
+\item Considere un criterio de parada. Determine si el proceso continua o se finaliza.
+\item Calcule $\theta_T$ para cada elemento $T\in {\cal T}^h$.
+\item Refine los elementos $T'\in {\cal T}^h$ para los cuales el indicador $\theta_T'$ satisface la condición
+%
+\[ \theta_T' \geq \frac{1}{2} \max\{\theta_T\colon T\in {\cal T}^h\}. \]
+\end{enumerate}
+%
+Sea $\Omega=(0,1)\times(0,1)$. En lo que sigue resolvemos el problema de la cavidad para 
+el modelo \eqref{eq:1} con densidad variable 
+$\rho(x,y)= 1 + 0.5x^2y^2$ y número de Reynolds \textrm{Re }= 1. En la parte superior de la cavidad suponemos un flujo
+constante $u(x,y)=(1, 0)$ y condiciones de adherencia en las otras paredes de la cavidad. Para garantizar la unicidad de
+la presión fijamos su valor en la parte superior a $p=10$. Los cálculos numéricos fueron realizados con MuFES, un código para
+elementos finitos desarrollado en el Departamento de Matemáticas de la Universidad del Valle (véase  \cite{wpD}). La rutinas de
+refinamiento que hemos implementado usan el código TRIANGLE \cite{S}, en cada proceso de refinamiento producimos una triangulación
+de Delaunay reduciendo el área de los triángulos $T'$ un 50\%. Este mismo procedimiento se aplica a la generación de los
+subdominios $\partial\Omega_i$, es decir, al refinamiento de los elementos $\omega_T$ (véase figura \ref{fig:parche}). Los detalles de la implementación de este método se pueden consultar en \cite{DC}. En \cite{DC}
+también se presenta un análisis de error para este indicador y experimentación numérica con otros ejemplos.
+
+
+La figura \ref{fig:mallas} muestra las mallas intermedias obtenidas 
+con el proceso adaptativo. Es interesante confirmar, como se esperaba, que el método es capaz de reconocer las singularidades de
+la solución $(u,p)$. En efecto, la malla inicial se refina mucho más alrededor de los puntos frontera $(0,1)$ y $(1,1)$. 
+%
+\begin{figure}
+ \centering
+ \begin{tabular}{cc}
+  \includegraphics[scale=0.29]{fig2_a.pdf} & \includegraphics[scale=0.29]{fig2_b.pdf}\\
+\includegraphics[scale=0.29]{fig2_c.pdf} & \includegraphics[scale=0.29]{fig2_d.pdf}
+ \end{tabular}
+ \caption{\small Malla inicial y mallas intermedias durante el proceso adaptativo con 512, 877, 1073 y 1157
+grados de libertad, respectivamente.}
+ \label{fig:mallas}
+\end{figure}
+
+La figura \ref{fig:sol} muestra la solución después de 10 iteraciones del proceso adaptativo. Como se puede observar en
+la figura \ref{fig:sol}, 
+la precisión con este método adaptativo es mejor a la precisión que se obtiene usando elementos lineales con refinamiento
+uniforme. Aquí, obtenemos una solución más precisa con menor número de grados de libertad. Véase \cite{DC} y \cite{gutierrez} 
+para otra comparación de los métodos.
+%
+\begin{figure}
+ \centering
+ \begin{tabular}{cc}
+  \includegraphics[scale=0.29]{fig3_a.pdf} &
+  \includegraphics[scale=0.29]{fig3_b.pdf}\\
+  {\small (a)} & {\small (b)}
+ \end{tabular}
+ \caption{\small Solución numérica del problema de la cavidad con $\rho(x,y) = 1 + 0.5x^2y^2$ y \textrm{Re }= 1: (a) Campo de velocidad $u$, (b) Interpolación de la presión $p$.}
+ \label{fig:sol}
+\end{figure}
+
+\section{Conclusiones} 
+
+En este trabajo se ha presentado un método de elementos finitos para un flujo lineal compresible bi- o tridimensional,
+junto con el análisis de error a priori. También se ha propuesto un estimativo a posteriori del error basado en el
+método de subdominios y se han presentado resultados numéricos que muestran la validez del estimativo. Sin embargo,
+en la implementación del método nos limitamos al caso bidimensional. Esta implementación nos es optima debido al
+costo computacional durante el proceso de refinamiento, ya que en cada iteración adaptativa se construye una triangulación
+de Delaunay. Una versión menos costosa del algoritmo prodría usar refinamientos de tipo {\em blue-green}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{agradecimientos}
+%En este espacio van los agradecimientos :\par
+%Si los hay $\cdots$
+%\end{agradecimientos}
+
+\begin{thebibliography}{15}
+
+\bibitem{BJ}{Bramble, J.: A proof of the inf sup condition for the stokes equation on lipschitz domains, Mathematical models and methods in applied science, Vol 13, No. 3, pp. 361-371, (2003)}.
+
+\bibitem{BR}{Brenner, S.C., Scott, L.R.: The mathematical theory of finite element methods, Springer-Verlag, (1994), New York.}
+
+\bibitem{Brezzi}{Brezzi, F., Pitkäranta, J.: On the stabilization of the element finite approximation of the equations of Stokes, GAMM Conf, Kiel, (1984), pp. 11-19.}
+
+\bibitem{DL}{Dautray, R., Lions, J.: Mathematical analysis and numerical methods for science and technology, Springer,Vol. 2,3 (1988)}
+
+\bibitem{DC} {Domínguez, C.: Estimación a posteriori del error en un método de elementos finitos para
+un flujo compresible, Tesis de Maestría en Matemáticas, Universidad del Valle, (2006).}
+
+\bibitem{wpD}{Duque, J.: MuFes: A Multilevel Finite element Solver, version 0.3.0. 
+
+\texttt{http://www.univalle.edu.co/$\sim$\,jjduque/Mufes}, (2005).}
+
+\bibitem{gutierrez}{Gutierrez, A.: Estabilización de un método de elementos finitos para
+un flujo compresible, Tesis de Maestría en Matemáticas, Universidad del Valle, (2005).}
+
+
+\bibitem{S}{Shewchuck, J. R.:  Triangle: A Two-Dimensional quality mesh generator and Delaunay Triangulator, version 1.4 
+
+\texttt{http://www.cs.cmu.edu/$\sim$quake/triangle.html}}
+
+
+%\bibitem{T}{R. Teman;\emph{Navier-Stokes equation: theory and numerical analysis}, S.1, Nort Holland, pág. 525, (1984)}
+
+%\bibitem{ZT}{O. C. Zienkiewicz, R. L. Taylor \emph{The Finite Element Method, The basis}, Vol 1, fifth edition, Butterworth Heinemann, Spain, (2000)}
+
+\end{thebibliography}
+\end{document}
